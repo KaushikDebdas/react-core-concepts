@@ -1,4 +1,4 @@
-
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
 function App() {
@@ -43,6 +43,11 @@ function App() {
         {
           products.map(pd => <Product productdetails = {pd}></Product>)
         }
+        <p>Show Counter</p>
+        <Counter></Counter>
+
+        <h1>USERS DATA LOAD DYNAMIC</h1>
+        <Users></Users>
       </header>
     </div>
   );
@@ -84,6 +89,51 @@ function Product(props){
       <h3>Name: {props.productdetails.name}</h3>
       <h1 style= {{ color:'yellow' }}>Price: {props.productdetails.price} </h1>
       <button>Buy Now</button>
+    </div>
+  )
+}
+
+// STATE PRACTICE
+function Counter(){
+  const [count, setCount] = useState(10);
+  // INCREASE
+  const handleIncrease = () => 
+  {
+    const newCount = count + 1;
+    setCount(newCount);
+  }
+  // DECREASE
+  const handleDecrease = () => 
+  {
+    const newCount = count - 1;
+    setCount(newCount);
+  }
+  return(
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={handleDecrease}>Decrease</button>
+      <button onClick={handleIncrease}>Increase</button>
+    </div>
+  )
+}
+
+// USERS DATA LOAD DYNAMIC 
+function Users(){
+
+  const [users, setUsers] = useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data));
+  }, [])
+  return(
+    <div>
+      <h3>Dynamic Users: {users.length}</h3>
+      <ol>
+        {
+          users.map(user => <li>Name:{user.name}, Phone:{user.phone}</li>)
+        }
+      </ol>
     </div>
   )
 }
